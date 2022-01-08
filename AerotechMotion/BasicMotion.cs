@@ -13,6 +13,7 @@ using Aerotech.A3200.Information;
 using Aerotech.Common;
 using Aerotech.Common.Collections;
 
+
 namespace AerotechMotion
 {
     public class BasicMotion
@@ -36,6 +37,10 @@ namespace AerotechMotion
                 Console.WriteLine(ex.Message);
             }
             
+        }
+        public void WaitFormMotionDone()
+        { 
+
         }
 
     }

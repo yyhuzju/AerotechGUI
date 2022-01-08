@@ -9,26 +9,31 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NLog;
+using Logging;
 
 namespace GUI
 {
     public partial class LoggerForm : Form
     {
         private string _logFilePath;
+        private string _logFileName;
+        private string _loggerType;
+        public string LoggerType { get { return _loggerType; } }
 
-        public LoggerForm(Logger logger, string logFilePath)
+
+        public LoggerForm(SysLogger sysLogger)
         {
             InitializeComponent();
-            _logFilePath = logFilePath;      
+            _logFilePath = sysLogger.logFilePath;
+            _logFileName = sysLogger.logFileName;
+            _loggerType = sysLogger.loggerType;
             logWatcher.Changed += WriteFile;
             logWatcher.Created += WriteFile;
             logWatcher.Deleted += (o, e) => txtFileContents.Text = "";
-
-            logger = LogManager.GetLogger("app_logger");
         }
         private void WriteFile(object o, FileSystemEventArgs e)
         {
-            txtFileContents.Text = File.ReadAllText(Path.Combine(_logFilePath, "AppLog.txt"));
+            txtFileContents.Text = File.ReadAllText(Path.Combine(_logFilePath, _logFileName));
             txtFileContents.SelectionStart = txtFileContents.Text.Length;
             txtFileContents.ScrollToCaret();
         }
@@ -36,7 +41,7 @@ namespace GUI
         {
             logWatcher.Path = _logFilePath;
             logWatcher.EnableRaisingEvents = true;
-            txtFileContents.Text = File.ReadAllText(Path.Combine(_logFilePath, "AppLog.txt"));
+            txtFileContents.Text = File.ReadAllText(Path.Combine(_logFilePath, _logFileName));
         }
     }
 }

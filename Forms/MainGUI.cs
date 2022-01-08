@@ -10,19 +10,25 @@ using Aerotech.A3200.Information;
 using Logging;
 using AerotechMotion;
 using System.Drawing;
+using UIMethods;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GUI
 {
 	public partial class MainForm : Form
 	{
 		#region Fields
-
+		static string appLoggerFileName = String.Format("Application logging {0}.txt",
+				DateTime.UtcNow.ToString("yyyy-MM-dd HH-mm"));
 		private Controller myController;
-		private int axisIndex;
-		private string axisName;
+		private string[] axisName;
+		private int axisNumber;
 		private int taskIndex;
 		private SysLogger sysLogger;
+		private string loggerType;
 		private ControllerState myControllerState;
+		public bool[] axisEnabledArray;
 
 		#endregion Fields
 
@@ -35,16 +41,42 @@ namespace GUI
 
 		private void formGUI_Load(object sender, EventArgs e)
 		{
+			EnableControllerBtn(false);
 			EnableHome(false);
 			EnableControls(false);
-			sysLogger =  new SysLogger("app_logger");
+			loggerType = "app_logger";
+			sysLogger =  new SysLogger(loggerType,appLoggerFileName);
 			myControllerState = new ControllerState();
+			string message = "System started";
+			UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, "Info", message);
 		}
 
 		private void formGUI_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			//Disconnect from controller
-			Controller.Disconnect();
+			try
+			{
+				//Disconnect from controller
+				if (myController != null)
+				{
+					this.myController.Commands[this.taskIndex].Axes[AxisMask.All].Motion.Disable();
+					string disabled_message = "All axes disabled";
+					UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, "Info", disabled_message);
+				}
+			}
+			catch (A3200Exception exception)
+			{
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, exception.Criticality.ToString(), exception.Message);
+			}
+			try {
+				Controller.Disconnect();
+				string disconnected_message = "Controller disconnected";
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, "Info", disconnected_message);
+			}
+			catch (A3200Exception exception)
+			{
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, exception.Criticality.ToString(), exception.Message);
+			}
+
 		}
 
 		#endregion Constructors
@@ -62,7 +94,11 @@ namespace GUI
 		/// <summary>
 		/// Enable or disable control groups
 		/// </summary>
-
+		private void EnableControllerBtn(bool enable)
+		{
+			btnResetController.Enabled = enable;
+			btnDisconnectController.Enabled = enable;
+		}
 		private void EnableHome(bool enable)
 		{
 			groupHome.Enabled = enable;
@@ -75,39 +111,6 @@ namespace GUI
 
 		}
 
-		private void DisplayStatus(string eS)
-		{
-			labelStatus.Text = eS;
-		}
-		private void DisplayMessage(string eM)
-		{
-			labelMessage.Text = eM;
-		}
-		public void Logging(string eS, string eM)
-		{
-
-			switch(eS)
-			{
-				case "Error":
-					sysLogger.Error(eM);
-					this.labelStatus.BackColor = Color.Red;
-					break;
-				case "FatalError":
-					sysLogger.Fatal(eM);
-					this.labelStatus.BackColor = Color.DarkRed;
-					break;
-				case "Warning":
-					sysLogger.Warn(eM);
-					this.labelStatus.BackColor = Color.Yellow;
-					break;
-				default:
-					sysLogger.Info(eM);
-					this.labelStatus.BackColor = Color.Green;
-					break;
-			}
-			DisplayStatus(eS);
-			DisplayMessage(eM);
-		}
 		/// <summary>
 		/// Process task state arrived event
 		/// </summary>
@@ -121,16 +124,26 @@ namespace GUI
 		/// </summary>
 		private void SetAxisState(NewDiagPacketArrivedEventArgs e)
 		{
-			labelAxisState.Text = e.Data[this.axisIndex].DriveStatus.Enabled.ToString();
-			labelAxisHomed.Text = e.Data[this.axisIndex].AxisStatus.Homed.ToString();
-			labelAxisFault.Text = (!e.Data[this.axisIndex].AxisFault.None).ToString();
-			labelAxisPosition.Text = e.Data[this.axisIndex].PositionFeedback.ToString("f6");
-			labelAxisSpeed.Text = e.Data[this.axisIndex].VelocityFeedback.ToString();
+			
+			for(int i = 0; i <= axisNumber - 1 ; i++)
+			{
+				AxisDiagPacket axisDiagPacket = e.Data[i];
+				if (axisDiagPacket.AxisName == checkedListBoxAxis.SelectedItem.ToString())
+				{
+					labelAxisHomed.Text = axisDiagPacket.AxisStatus.Homed.ToString();
+					labelAxisFault.Text = (!axisDiagPacket.AxisFault.None).ToString();
+				}
+				string Position = axisDiagPacket.PositionFeedback.ToString("f6");
+				string Velocity = axisDiagPacket.VelocityFeedback.ToString();
+				UIModificationStatic.SetDataListView(dataGridViewAxisDiag, axisNumber - 1-i, Position, Velocity);
+				axisEnabledArray[axisNumber-1-i] = axisDiagPacket.DriveStatus.Enabled;
+			}
+			ledArrayAxisEnabled.SetValues(axisEnabledArray);
 		}
 
 		private void SetControllerState(ControllerEventArgs e)
 		{
-			
+			this.Cursor = Cursors.WaitCursor;
 		}
 		#endregion Methods
 
@@ -144,17 +157,28 @@ namespace GUI
 				myController = Controller.Connect();
 				myControllerState.myController = myController;
 				myControllerState.connected = true;
+				ledConnection.Value = true;
+				EnableControllerBtn(true);
 				EnableHome(true);
-				Logging("Info", "Controller connected");
+				string message = "Controller connected";
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, "Info", message);
 				// populate axis names
-				foreach (AxisInfo axis in myController.Information.Axes)
+				
+				foreach (MotionDriveInformation motionDriveInformation in myController.Information.MotionDrives)
 				{
-					comboAxis.Items.Add(axis.Name);
+					foreach (AxisInfo axisInfo in motionDriveInformation.Axes)
+					{
+						checkedListBoxAxis.Items.Add(axisInfo.Name);
+					}
+					axisNumber += 1;	
 				}
-				this.axisIndex = 0;
-				comboAxis.SelectedIndex = this.axisIndex;
-				this.axisName = comboAxis.Text;
-
+				
+				checkedListBoxAxis.SelectedIndex = 0;
+				checkedListBoxAxis.SetItemChecked(0, true);
+				UIModificationStatic.InitializeDataListView(dataGridViewAxisDiag, axisNumber);
+				UIModificationStatic.SetLEDArray(ledArrayAxisEnabled, axisNumber);
+				UIModificationStatic.SetSwitchArray(switchArrayAxisEnable, axisNumber);
+				axisEnabledArray = new bool[axisNumber];
 				// populate task names
 				foreach (Task task in this.myController.Tasks)
 				{
@@ -166,7 +190,7 @@ namespace GUI
 			}
 			catch (A3200Exception exception)
 			{
-				Logging(exception.Criticality.ToString(), exception.Message);
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, exception.Criticality.ToString(), exception.Message);
 			}
 		}
 
@@ -174,13 +198,15 @@ namespace GUI
 		{
 			try
 			{
-				this.myController.Commands[this.taskIndex].Axes[this.axisIndex].Motion.Enable();
-				string message = "Axis " + this.axisName + " enabled";
-				Logging("Info", message);
+				string axisNameCollection = UIMethods.UIModificationStatic.AxisCollectionLog(axisName);
+				if (axisName.Length >0)
+					this.myController.Commands[this.taskIndex].Axes[this.axisName].Motion.Enable();
+				string message = axisNameCollection+ " axis enabled";
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, "Info", message);
 			}
 			catch (A3200Exception exception)
 			{
-				Logging(exception.Criticality.ToString(), exception.Message);
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, exception.Criticality.ToString(), exception.Message);
 			}
 		}
 
@@ -188,20 +214,16 @@ namespace GUI
 		{
 			try
 			{
-				this.myController.Commands[this.taskIndex].Axes[this.axisIndex].Motion.Disable();
-				string message = "Axis " + this.axisName + " disabled";
-				Logging("Info", message);
+				string axisNameCollection = UIMethods.UIModificationStatic.AxisCollectionLog(axisName);
+				if (axisName.Length >0)
+					this.myController.Commands[this.taskIndex].Axes[this.axisName].Motion.Disable();
+				string message = axisNameCollection + " axis disabled";
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, "Info", message);
 			}
 			catch (A3200Exception exception)
 			{
-				Logging(exception.Criticality.ToString(), exception.Message);
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, exception.Criticality.ToString(), exception.Message);
 			}
-		}
-
-		private void comboAxis_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			this.axisIndex = comboAxis.SelectedIndex;
-			this.axisName = comboAxis.Text;
 		}
 
 		private void comboTask_SelectedIndexChanged(object sender, EventArgs e)
@@ -210,27 +232,15 @@ namespace GUI
 			this.taskIndex = comboTask.SelectedIndex + 1;
 		}
 
-		private void buttonExecuteGenericString_Click(object sender, EventArgs e)
-		{
-			try
-			{
-				this.myController.Commands[this.taskIndex].Execute(textGenericString.Text);
-			}
-			catch (A3200Exception exception)
-			{
-				Logging(exception.Criticality.ToString(), exception.Message);
-			}
-		}
-
 		private void buttonRunProgram_Click(object sender, EventArgs e)
 		{
 			try
 			{
-				this.myController.Tasks[this.taskIndex].Program.Run(textProgram.Text);
+				   this.myController.Tasks[this.taskIndex].Program.Run(textProgram.Text);
 			}
 			catch (A3200Exception exception)
 			{
-				Logging(exception.Criticality.ToString(), exception.Message);
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, exception.Criticality.ToString(), exception.Message);
 			}
 		}
 
@@ -243,7 +253,7 @@ namespace GUI
 			}
 			catch (A3200Exception exception)
 			{
-				Logging(exception.Criticality.ToString(), exception.Message);
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, exception.Criticality.ToString(), exception.Message);
 			}
 		}
 
@@ -254,11 +264,14 @@ namespace GUI
 		{
 			try
 			{
-				this.myController.Commands[this.taskIndex].Motion.FreeRun(this.axisIndex, double.Parse(textFreerunSpeed.Text));
+				this.myController.Commands[this.taskIndex].Motion.FreeRun(checkedListBoxAxis.SelectedItem.ToString(), double.Parse(textFreerunSpeed.Text));
+				string message = checkedListBoxAxis.SelectedItem.ToString() + " axis starts CW free running with a speed of "+ textFreerunSpeed.Text;
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, "Info", message);
+				
 			}
 			catch (A3200Exception exception)
 			{
-				Logging(exception.Criticality.ToString(), exception.Message);
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, exception.Criticality.ToString(), exception.Message);
 			}
 		}
 
@@ -269,11 +282,14 @@ namespace GUI
 		{
 			try
 			{
-				this.myController.Commands[this.taskIndex].Motion.FreeRun(this.axisIndex, 0);
+				this.myController.Commands[this.taskIndex].Motion.FreeRun(checkedListBoxAxis.SelectedItem.ToString(), 0);
+				
+				string message = checkedListBoxAxis.SelectedItem.ToString() + " axis ends CW free running at "+dataGridViewAxisDiag.Rows[checkedListBoxAxis.SelectedIndex].Cells[0].Value ;
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, "Info", message);
 			}
 			catch (A3200Exception exception)
 			{
-				Logging(exception.Criticality.ToString(), exception.Message);
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, exception.Criticality.ToString(), exception.Message);
 			}
 		}
 
@@ -284,11 +300,13 @@ namespace GUI
 		{
 			try
 			{
-				this.myController.Commands[this.taskIndex].Motion.FreeRun(this.axisIndex, -double.Parse(textFreerunSpeed.Text));
+				this.myController.Commands[this.taskIndex].Motion.FreeRun(checkedListBoxAxis.SelectedItem.ToString(), -double.Parse(textFreerunSpeed.Text));
+				string message = checkedListBoxAxis.SelectedItem.ToString() + " axis starts CCW free running with a speed of " + textFreerunSpeed.Text;
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, "Info", message);
 			}
 			catch (A3200Exception exception)
 			{
-				Logging(exception.Criticality.ToString(), exception.Message);
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, exception.Criticality.ToString(), exception.Message);
 			}
 		}
 
@@ -299,11 +317,14 @@ namespace GUI
 		{
 			try
 			{
-				this.myController.Commands[this.taskIndex].Motion.FreeRun(this.axisIndex, 0);
+				this.myController.Commands[this.taskIndex].Motion.FreeRun(checkedListBoxAxis.SelectedItem.ToString(), 0);
+
+				string message = checkedListBoxAxis.SelectedItem.ToString() + " axis ends CCW free running at " + dataGridViewAxisDiag.Rows[checkedListBoxAxis.SelectedIndex].Cells[0].Value;
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, "Info", message);
 			}
 			catch (A3200Exception exception)
 			{
-				Logging(exception.Criticality.ToString(), exception.Message);
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, exception.Criticality.ToString(), exception.Message);
 			}
 		}
 
@@ -377,9 +398,10 @@ namespace GUI
 			{
 				this.myController.Commands.Axes["X", "Y", "THETA"].Motion.Enable();
 				this.myController.Commands.Axes["X", "Y", "THETA"].Motion.Home();
+				 
 				EnableControls(true);
 				string message = "All axes homed";
-				Logging("Info", message);
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, "Info", message);
 				// Task 0 is reserved
 				this.taskIndex = 1;
 				comboTask.SelectedIndex = this.taskIndex - 1;
@@ -387,44 +409,24 @@ namespace GUI
 				// register task state and diagPackect arrived events
 				this.myController.ControlCenter.TaskStates.NewTaskStatesArrived += new EventHandler<NewTaskStatesArrivedEventArgs>(TaskStates_NewTaskStatesArrived);
 				this.myController.ControlCenter.Diagnostics.NewDiagPacketArrived += new EventHandler<NewDiagPacketArrivedEventArgs>(Diagnostics_NewDiagPacketArrived);
-
+				
 				// axis mask
 			}
 			catch (A3200Exception exception)
 			{
-				Logging(exception.Criticality.ToString(), exception.Message);
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage,sysLogger, exception.Criticality.ToString(), exception.Message);
 			}
 			
 		}
 
         private void labelMessage_Click(object sender, EventArgs e)
         {
-			var loggerForm = Application.OpenForms["LoggerForm"];
-			if (loggerForm == null)
-			{
-				loggerForm = new LoggerForm(sysLogger.logger,sysLogger.logFilePath);
-				loggerForm.Show();
-			}
-			else
-			{
-				loggerForm.Focus();
-			}
-
+			UIModificationStatic.ShowLoggerForm(this,sysLogger);
 		}
 
         private void laebelMessage_Click(object sender, EventArgs e)
         {
-			var loggerForm = Application.OpenForms["LoggerForm"];
-			if (loggerForm == null)
-			{
-				loggerForm = new LoggerForm(sysLogger.logger, sysLogger.logFilePath);
-				loggerForm.Show();
-			}
-			else
-			{
-				loggerForm.Focus();
-			}
-
+			UIModificationStatic.ShowLoggerForm(this, sysLogger);
 		}
 
         private void StopBtn_Click(object sender, EventArgs e)
@@ -433,11 +435,11 @@ namespace GUI
 			{
 				this.myController.Commands[this.taskIndex].Axes[AxisMask.All].Motion.Disable();
 				string message = "All axes disabled";
-				Logging("Info", message);
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, "Info", message);
 			}
 			catch (A3200Exception exception)
 			{
-				Logging(exception.Criticality.ToString(), exception.Message);
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, exception.Criticality.ToString(), exception.Message);
 			}
 		}
 
@@ -446,13 +448,17 @@ namespace GUI
 			try
 			{
 				myControllerState.ControllerResetting += new EventHandler<ControllerEventArgs>(ControllerState_ControllerResetting);
+				this.Cursor = Cursors.WaitCursor;
+
 				myControllerState.Reset();
+
+				this.Cursor = Cursors.Default;
 				string message = "Controller reset";
-				Logging("Info", message);
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, "Info", message);
 			}
 			catch (A3200Exception exception)
 			{
-				Logging(exception.Criticality.ToString(), exception.Message);
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, exception.Criticality.ToString(), exception.Message);
 			}
         }
 
@@ -461,14 +467,49 @@ namespace GUI
 			try
 			{
 				myControllerState.Disconnect();
+				ledConnection.Value = false;
 				EnableControls(false);
 				string message = "Controller disconnected";
-				Logging("Info", message);
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, "Info", message);
 			}
 			catch (A3200Exception exception)
 			{
-				Logging(exception.Criticality.ToString(), exception.Message);
+				UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, exception.Criticality.ToString(), exception.Message);
 			}
 		}
-    }
+
+        private void btnGenerator_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ButtonFreerunCW_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ButtonFreerunCCW_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkedListBoxAxis_SelectedIndexChanged(object sender, EventArgs e)
+        {
+			string message = checkedListBoxAxis.SelectedItem.ToString()+" axis selected";
+			UIModificationStatic.Logging(this.labelStatus, this.labelMessage, sysLogger, "Info", message);
+		}
+		private void checkedListBoxAxis_ItemChecked(object sender, ItemCheckEventArgs e)
+		{
+			List<string> checkedItems = new List<string>();
+			foreach (var item in checkedListBoxAxis.CheckedItems)
+				checkedItems.Add(item.ToString());
+			if (e.NewValue == CheckState.Checked)
+				checkedItems.Add(checkedListBoxAxis.Items[e.Index].ToString());
+			else
+				checkedItems.Remove(checkedListBoxAxis.Items[e.Index].ToString());
+
+			axisName = checkedItems.OfType<string>().ToArray();
+		}
+
+	}
 }

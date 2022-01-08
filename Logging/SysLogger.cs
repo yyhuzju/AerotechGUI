@@ -18,15 +18,31 @@ namespace Logging
             get { return _logFilePath; }
             set { _logFilePath = value; }
         }
-        private Logger _logger = LogManager.GetLogger("app_logger");
+        private Logger _logger;
         
         public Logger logger {
             get { return _logger; }
             set { _logger = value; }
         }
-        public SysLogger(string loggerName) {
-            _logger = LogManager.GetLogger(loggerName);
+        private string _logFileName;
+        public string logFileName
+        {
+            get { return _logFileName; }
+            set { logFileName = value; }
+        }
+        private string _loggerType;
+        public string loggerType {
+            get { return _loggerType; }
+            set { _loggerType = value; } 
+        }
+        public SysLogger(string definedLoggerTyoe,string logFileName) {
+        
+            _loggerType = definedLoggerTyoe;
+            _logger = LogManager.GetLogger(_loggerType);
             logger = _logger;
+            _logFileName = logFileName;
+            LogManager.Configuration.Variables["logFileName"] = _logFileName;
+            
         }
         public void Trace(string strMsg)
         {

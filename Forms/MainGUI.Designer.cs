@@ -28,62 +28,81 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+            this.components = new System.ComponentModel.Container();
             this.buttonConnectController = new System.Windows.Forms.Button();
             this.groupController = new System.Windows.Forms.GroupBox();
+            this.ledConnection = new NationalInstruments.UI.WindowsForms.Led();
             this.btnResetController = new System.Windows.Forms.Button();
             this.btnDisconnectController = new System.Windows.Forms.Button();
             this.groupAxis = new System.Windows.Forms.GroupBox();
+            this.tabControlAxisMotion = new System.Windows.Forms.TabControl();
+            this.QuickRunTab = new System.Windows.Forms.TabPage();
             this.groupFreerun = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.textFreerunSpeed = new System.Windows.Forms.TextBox();
-            this.ButtonFreerunCCW = new System.Windows.Forms.Button();
-            this.ButtonFreerunCW = new System.Windows.Forms.Button();
-            this.groupAxisState = new System.Windows.Forms.GroupBox();
-            this.labelAxisFault = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.labelAxisHomed = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.labelAxisSpeed = new System.Windows.Forms.Label();
-            this.labelAxisPosition = new System.Windows.Forms.Label();
-            this.labelAxisState = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.ButtonDisableAxis = new System.Windows.Forms.Button();
             this.ButtonEnableAxis = new System.Windows.Forms.Button();
-            this.comboAxis = new System.Windows.Forms.ComboBox();
+            this.labelAxisFault = new System.Windows.Forms.Label();
+            this.textFreerunSpeed = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.ButtonFreerunCCW = new System.Windows.Forms.Button();
+            this.labelAxisHomed = new System.Windows.Forms.Label();
+            this.ButtonFreerunCW = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.FreeRunTab = new System.Windows.Forms.TabPage();
+            this.velocityEditArray = new NationalInstruments.UI.WindowsForms.NumericEditArray();
+            this.LinearMotionTab = new System.Windows.Forms.TabPage();
+            this.groupAxisSelection = new System.Windows.Forms.GroupBox();
+            this.checkedListBoxAxis = new System.Windows.Forms.CheckedListBox();
+            this.switchArrayAxisEnable = new NationalInstruments.UI.WindowsForms.SwitchArray();
+            this.ledArrayAxisEnabled = new NationalInstruments.UI.WindowsForms.LedArray();
+            this.axisLabel = new System.Windows.Forms.Label();
+            this.groupAxisState = new System.Windows.Forms.GroupBox();
+            this.velLabel = new System.Windows.Forms.Label();
+            this.posLabel = new System.Windows.Forms.Label();
+            this.dataGridViewAxisDiag = new System.Windows.Forms.DataGridView();
             this.groupTask = new System.Windows.Forms.GroupBox();
             this.groupProgram = new System.Windows.Forms.GroupBox();
             this.textProgram = new System.Windows.Forms.TextBox();
             this.buttonStopProgram = new System.Windows.Forms.Button();
             this.buttonRunProgram = new System.Windows.Forms.Button();
-            this.groupGenericString = new System.Windows.Forms.GroupBox();
-            this.textGenericString = new System.Windows.Forms.TextBox();
-            this.buttonExecuteGenericString = new System.Windows.Forms.Button();
             this.labelTaskState = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.comboTask = new System.Windows.Forms.ComboBox();
-            this.Scope = new System.Windows.Forms.Button();
+            this.btnMonitor = new System.Windows.Forms.Button();
             this.groupHome = new System.Windows.Forms.GroupBox();
             this.StopBtn = new System.Windows.Forms.Button();
             this.HomeBtn = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.labelStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.labelMessage = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnGenerator = new System.Windows.Forms.Button();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.enableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
             this.groupController.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ledConnection)).BeginInit();
             this.groupAxis.SuspendLayout();
+            this.tabControlAxisMotion.SuspendLayout();
+            this.QuickRunTab.SuspendLayout();
             this.groupFreerun.SuspendLayout();
+            this.FreeRunTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.velocityEditArray.ItemTemplate)).BeginInit();
+            this.groupAxisSelection.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.switchArrayAxisEnable.ItemTemplate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ledArrayAxisEnabled.ItemTemplate)).BeginInit();
             this.groupAxisState.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAxisDiag)).BeginInit();
             this.groupTask.SuspendLayout();
             this.groupProgram.SuspendLayout();
-            this.groupGenericString.SuspendLayout();
             this.groupHome.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonConnectController
             // 
-            this.buttonConnectController.Location = new System.Drawing.Point(24, 26);
+            this.buttonConnectController.Location = new System.Drawing.Point(27, 26);
             this.buttonConnectController.Name = "buttonConnectController";
             this.buttonConnectController.Size = new System.Drawing.Size(58, 25);
             this.buttonConnectController.TabIndex = 0;
@@ -93,6 +112,7 @@
             // 
             // groupController
             // 
+            this.groupController.Controls.Add(this.ledConnection);
             this.groupController.Controls.Add(this.btnResetController);
             this.groupController.Controls.Add(this.btnDisconnectController);
             this.groupController.Controls.Add(this.buttonConnectController);
@@ -103,9 +123,17 @@
             this.groupController.TabStop = false;
             this.groupController.Text = "Controller";
             // 
+            // ledConnection
+            // 
+            this.ledConnection.LedStyle = NationalInstruments.UI.LedStyle.Square;
+            this.ledConnection.Location = new System.Drawing.Point(0, 26);
+            this.ledConnection.Name = "ledConnection";
+            this.ledConnection.Size = new System.Drawing.Size(27, 25);
+            this.ledConnection.TabIndex = 3;
+            // 
             // btnResetController
             // 
-            this.btnResetController.Location = new System.Drawing.Point(88, 26);
+            this.btnResetController.Location = new System.Drawing.Point(90, 26);
             this.btnResetController.Name = "btnResetController";
             this.btnResetController.Size = new System.Drawing.Size(58, 25);
             this.btnResetController.TabIndex = 2;
@@ -125,27 +153,53 @@
             // 
             // groupAxis
             // 
-            this.groupAxis.Controls.Add(this.groupFreerun);
+            this.groupAxis.Controls.Add(this.tabControlAxisMotion);
+            this.groupAxis.Controls.Add(this.groupAxisSelection);
             this.groupAxis.Controls.Add(this.groupAxisState);
-            this.groupAxis.Controls.Add(this.ButtonDisableAxis);
-            this.groupAxis.Controls.Add(this.ButtonEnableAxis);
-            this.groupAxis.Controls.Add(this.comboAxis);
-            this.groupAxis.Location = new System.Drawing.Point(12, 82);
+            this.groupAxis.Location = new System.Drawing.Point(12, 207);
             this.groupAxis.Name = "groupAxis";
-            this.groupAxis.Size = new System.Drawing.Size(455, 99);
+            this.groupAxis.Size = new System.Drawing.Size(660, 164);
             this.groupAxis.TabIndex = 4;
             this.groupAxis.TabStop = false;
             this.groupAxis.Text = "Axis";
             // 
+            // tabControlAxisMotion
+            // 
+            this.tabControlAxisMotion.Controls.Add(this.QuickRunTab);
+            this.tabControlAxisMotion.Controls.Add(this.FreeRunTab);
+            this.tabControlAxisMotion.Controls.Add(this.LinearMotionTab);
+            this.tabControlAxisMotion.Location = new System.Drawing.Point(405, 12);
+            this.tabControlAxisMotion.Name = "tabControlAxisMotion";
+            this.tabControlAxisMotion.SelectedIndex = 0;
+            this.tabControlAxisMotion.Size = new System.Drawing.Size(255, 142);
+            this.tabControlAxisMotion.TabIndex = 25;
+            // 
+            // QuickRunTab
+            // 
+            this.QuickRunTab.Controls.Add(this.groupFreerun);
+            this.QuickRunTab.Location = new System.Drawing.Point(4, 22);
+            this.QuickRunTab.Name = "QuickRunTab";
+            this.QuickRunTab.Padding = new System.Windows.Forms.Padding(3);
+            this.QuickRunTab.Size = new System.Drawing.Size(227, 116);
+            this.QuickRunTab.TabIndex = 0;
+            this.QuickRunTab.Text = "Quick Start";
+            this.QuickRunTab.UseVisualStyleBackColor = true;
+            // 
             // groupFreerun
             // 
             this.groupFreerun.Controls.Add(this.label1);
+            this.groupFreerun.Controls.Add(this.ButtonDisableAxis);
+            this.groupFreerun.Controls.Add(this.ButtonEnableAxis);
+            this.groupFreerun.Controls.Add(this.labelAxisFault);
             this.groupFreerun.Controls.Add(this.textFreerunSpeed);
+            this.groupFreerun.Controls.Add(this.label2);
             this.groupFreerun.Controls.Add(this.ButtonFreerunCCW);
+            this.groupFreerun.Controls.Add(this.labelAxisHomed);
             this.groupFreerun.Controls.Add(this.ButtonFreerunCW);
-            this.groupFreerun.Location = new System.Drawing.Point(106, 15);
+            this.groupFreerun.Controls.Add(this.label3);
+            this.groupFreerun.Location = new System.Drawing.Point(6, 3);
             this.groupFreerun.Name = "groupFreerun";
-            this.groupFreerun.Size = new System.Drawing.Size(98, 70);
+            this.groupFreerun.Size = new System.Drawing.Size(333, 110);
             this.groupFreerun.TabIndex = 17;
             this.groupFreerun.TabStop = false;
             this.groupFreerun.Text = "Freerun";
@@ -159,143 +213,9 @@
             this.label1.TabIndex = 10;
             this.label1.Text = "Speed";
             // 
-            // textFreerunSpeed
-            // 
-            this.textFreerunSpeed.Location = new System.Drawing.Point(52, 18);
-            this.textFreerunSpeed.Name = "textFreerunSpeed";
-            this.textFreerunSpeed.Size = new System.Drawing.Size(40, 21);
-            this.textFreerunSpeed.TabIndex = 9;
-            this.textFreerunSpeed.Text = "10";
-            // 
-            // ButtonFreerunCCW
-            // 
-            this.ButtonFreerunCCW.Location = new System.Drawing.Point(52, 47);
-            this.ButtonFreerunCCW.Name = "ButtonFreerunCCW";
-            this.ButtonFreerunCCW.Size = new System.Drawing.Size(40, 22);
-            this.ButtonFreerunCCW.TabIndex = 8;
-            this.ButtonFreerunCCW.Text = "CCW";
-            this.ButtonFreerunCCW.UseVisualStyleBackColor = true;
-            this.ButtonFreerunCCW.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonFreerunCCW_MouseDown);
-            this.ButtonFreerunCCW.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonFreerunCCW_MouseUp);
-            // 
-            // ButtonFreerunCW
-            // 
-            this.ButtonFreerunCW.Location = new System.Drawing.Point(3, 47);
-            this.ButtonFreerunCW.Name = "ButtonFreerunCW";
-            this.ButtonFreerunCW.Size = new System.Drawing.Size(40, 22);
-            this.ButtonFreerunCW.TabIndex = 7;
-            this.ButtonFreerunCW.Text = "CW";
-            this.ButtonFreerunCW.UseVisualStyleBackColor = true;
-            this.ButtonFreerunCW.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonFreerunCW_MouseDown);
-            this.ButtonFreerunCW.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonFreerunCW_MouseUp);
-            // 
-            // groupAxisState
-            // 
-            this.groupAxisState.Controls.Add(this.labelAxisFault);
-            this.groupAxisState.Controls.Add(this.label2);
-            this.groupAxisState.Controls.Add(this.labelAxisHomed);
-            this.groupAxisState.Controls.Add(this.label3);
-            this.groupAxisState.Controls.Add(this.labelAxisSpeed);
-            this.groupAxisState.Controls.Add(this.labelAxisPosition);
-            this.groupAxisState.Controls.Add(this.labelAxisState);
-            this.groupAxisState.Controls.Add(this.label6);
-            this.groupAxisState.Controls.Add(this.label5);
-            this.groupAxisState.Controls.Add(this.label4);
-            this.groupAxisState.Location = new System.Drawing.Point(210, 15);
-            this.groupAxisState.Name = "groupAxisState";
-            this.groupAxisState.Size = new System.Drawing.Size(228, 70);
-            this.groupAxisState.TabIndex = 16;
-            this.groupAxisState.TabStop = false;
-            this.groupAxisState.Text = "Axis State";
-            // 
-            // labelAxisFault
-            // 
-            this.labelAxisFault.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelAxisFault.Location = new System.Drawing.Point(179, 51);
-            this.labelAxisFault.Name = "labelAxisFault";
-            this.labelAxisFault.Size = new System.Drawing.Size(39, 16);
-            this.labelAxisFault.TabIndex = 19;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(143, 53);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 12);
-            this.label2.TabIndex = 18;
-            this.label2.Text = "Fault";
-            // 
-            // labelAxisHomed
-            // 
-            this.labelAxisHomed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelAxisHomed.Location = new System.Drawing.Point(179, 33);
-            this.labelAxisHomed.Name = "labelAxisHomed";
-            this.labelAxisHomed.Size = new System.Drawing.Size(39, 16);
-            this.labelAxisHomed.TabIndex = 17;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(132, 34);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 12);
-            this.label3.TabIndex = 16;
-            this.label3.Text = "Homed";
-            // 
-            // labelAxisSpeed
-            // 
-            this.labelAxisSpeed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelAxisSpeed.Location = new System.Drawing.Point(56, 49);
-            this.labelAxisSpeed.Name = "labelAxisSpeed";
-            this.labelAxisSpeed.Size = new System.Drawing.Size(65, 16);
-            this.labelAxisSpeed.TabIndex = 14;
-            // 
-            // labelAxisPosition
-            // 
-            this.labelAxisPosition.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelAxisPosition.Location = new System.Drawing.Point(56, 28);
-            this.labelAxisPosition.Name = "labelAxisPosition";
-            this.labelAxisPosition.Size = new System.Drawing.Size(65, 16);
-            this.labelAxisPosition.TabIndex = 13;
-            // 
-            // labelAxisState
-            // 
-            this.labelAxisState.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelAxisState.Location = new System.Drawing.Point(179, 15);
-            this.labelAxisState.Name = "labelAxisState";
-            this.labelAxisState.Size = new System.Drawing.Size(39, 16);
-            this.labelAxisState.TabIndex = 12;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 50);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(35, 12);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "Speed";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 29);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(53, 12);
-            this.label5.TabIndex = 10;
-            this.label5.Text = "Position";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(127, 16);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(47, 12);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "Enabled";
-            // 
             // ButtonDisableAxis
             // 
-            this.ButtonDisableAxis.Location = new System.Drawing.Point(43, 62);
+            this.ButtonDisableAxis.Location = new System.Drawing.Point(65, 84);
             this.ButtonDisableAxis.Name = "ButtonDisableAxis";
             this.ButtonDisableAxis.Size = new System.Drawing.Size(56, 23);
             this.ButtonDisableAxis.TabIndex = 5;
@@ -305,7 +225,7 @@
             // 
             // ButtonEnableAxis
             // 
-            this.ButtonEnableAxis.Location = new System.Drawing.Point(43, 38);
+            this.ButtonEnableAxis.Location = new System.Drawing.Point(3, 85);
             this.ButtonEnableAxis.Name = "ButtonEnableAxis";
             this.ButtonEnableAxis.Size = new System.Drawing.Size(56, 22);
             this.ButtonEnableAxis.TabIndex = 4;
@@ -313,25 +233,230 @@
             this.ButtonEnableAxis.UseVisualStyleBackColor = true;
             this.ButtonEnableAxis.Click += new System.EventHandler(this.buttonEnableAxis_Click);
             // 
-            // comboAxis
+            // labelAxisFault
             // 
-            this.comboAxis.FormattingEnabled = true;
-            this.comboAxis.Location = new System.Drawing.Point(42, 13);
-            this.comboAxis.Name = "comboAxis";
-            this.comboAxis.Size = new System.Drawing.Size(58, 20);
-            this.comboAxis.TabIndex = 3;
-            this.comboAxis.SelectedIndexChanged += new System.EventHandler(this.comboAxis_SelectedIndexChanged);
+            this.labelAxisFault.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelAxisFault.Location = new System.Drawing.Point(148, 51);
+            this.labelAxisFault.Name = "labelAxisFault";
+            this.labelAxisFault.Size = new System.Drawing.Size(39, 16);
+            this.labelAxisFault.TabIndex = 19;
+            // 
+            // textFreerunSpeed
+            // 
+            this.textFreerunSpeed.Location = new System.Drawing.Point(52, 18);
+            this.textFreerunSpeed.Name = "textFreerunSpeed";
+            this.textFreerunSpeed.Size = new System.Drawing.Size(40, 21);
+            this.textFreerunSpeed.TabIndex = 9;
+            this.textFreerunSpeed.Text = "10";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(107, 52);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 12);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Fault";
+            // 
+            // ButtonFreerunCCW
+            // 
+            this.ButtonFreerunCCW.Location = new System.Drawing.Point(52, 47);
+            this.ButtonFreerunCCW.Name = "ButtonFreerunCCW";
+            this.ButtonFreerunCCW.Size = new System.Drawing.Size(40, 22);
+            this.ButtonFreerunCCW.TabIndex = 8;
+            this.ButtonFreerunCCW.Text = "CCW";
+            this.ButtonFreerunCCW.UseVisualStyleBackColor = true;
+            this.ButtonFreerunCCW.Click += new System.EventHandler(this.ButtonFreerunCCW_Click);
+            this.ButtonFreerunCCW.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonFreerunCCW_MouseDown);
+            this.ButtonFreerunCCW.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonFreerunCCW_MouseUp);
+            // 
+            // labelAxisHomed
+            // 
+            this.labelAxisHomed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelAxisHomed.Location = new System.Drawing.Point(148, 20);
+            this.labelAxisHomed.Name = "labelAxisHomed";
+            this.labelAxisHomed.Size = new System.Drawing.Size(39, 16);
+            this.labelAxisHomed.TabIndex = 17;
+            // 
+            // ButtonFreerunCW
+            // 
+            this.ButtonFreerunCW.Location = new System.Drawing.Point(3, 47);
+            this.ButtonFreerunCW.Name = "ButtonFreerunCW";
+            this.ButtonFreerunCW.Size = new System.Drawing.Size(40, 22);
+            this.ButtonFreerunCW.TabIndex = 7;
+            this.ButtonFreerunCW.Text = "CW";
+            this.ButtonFreerunCW.UseVisualStyleBackColor = true;
+            this.ButtonFreerunCW.Click += new System.EventHandler(this.ButtonFreerunCW_Click);
+            this.ButtonFreerunCW.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonFreerunCW_MouseDown);
+            this.ButtonFreerunCW.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonFreerunCW_MouseUp);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(107, 21);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(35, 12);
+            this.label3.TabIndex = 16;
+            this.label3.Text = "Homed";
+            // 
+            // FreeRunTab
+            // 
+            this.FreeRunTab.Controls.Add(this.elementHost1);
+            this.FreeRunTab.Controls.Add(this.velocityEditArray);
+            this.FreeRunTab.Location = new System.Drawing.Point(4, 22);
+            this.FreeRunTab.Name = "FreeRunTab";
+            this.FreeRunTab.Padding = new System.Windows.Forms.Padding(3);
+            this.FreeRunTab.Size = new System.Drawing.Size(247, 116);
+            this.FreeRunTab.TabIndex = 1;
+            this.FreeRunTab.Text = "Free Run";
+            this.FreeRunTab.UseVisualStyleBackColor = true;
+            // 
+            // velocityEditArray
+            // 
+            // 
+            // 
+            // 
+            this.velocityEditArray.ItemTemplate.Location = new System.Drawing.Point(0, 0);
+            this.velocityEditArray.ItemTemplate.Name = "";
+            this.velocityEditArray.ItemTemplate.Range = new NationalInstruments.UI.Range(0D, 100D);
+            this.velocityEditArray.ItemTemplate.TabIndex = 0;
+            this.velocityEditArray.ItemTemplate.TabStop = false;
+            this.velocityEditArray.Location = new System.Drawing.Point(7, 30);
+            this.velocityEditArray.Name = "velocityEditArray";
+            this.velocityEditArray.Size = new System.Drawing.Size(135, 76);
+            this.velocityEditArray.TabIndex = 0;
+            // 
+            // LinearMotionTab
+            // 
+            this.LinearMotionTab.Location = new System.Drawing.Point(4, 22);
+            this.LinearMotionTab.Name = "LinearMotionTab";
+            this.LinearMotionTab.Padding = new System.Windows.Forms.Padding(3);
+            this.LinearMotionTab.Size = new System.Drawing.Size(227, 116);
+            this.LinearMotionTab.TabIndex = 2;
+            this.LinearMotionTab.Text = "Linear Motion";
+            this.LinearMotionTab.UseVisualStyleBackColor = true;
+            // 
+            // groupAxisSelection
+            // 
+            this.groupAxisSelection.AutoSize = true;
+            this.groupAxisSelection.Controls.Add(this.checkedListBoxAxis);
+            this.groupAxisSelection.Controls.Add(this.switchArrayAxisEnable);
+            this.groupAxisSelection.Controls.Add(this.ledArrayAxisEnabled);
+            this.groupAxisSelection.Controls.Add(this.axisLabel);
+            this.groupAxisSelection.Location = new System.Drawing.Point(5, 17);
+            this.groupAxisSelection.Name = "groupAxisSelection";
+            this.groupAxisSelection.Size = new System.Drawing.Size(182, 143);
+            this.groupAxisSelection.TabIndex = 24;
+            this.groupAxisSelection.TabStop = false;
+            this.groupAxisSelection.Text = "Axis Selection";
+            // 
+            // checkedListBoxAxis
+            // 
+            this.checkedListBoxAxis.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkedListBoxAxis.FormattingEnabled = true;
+            this.checkedListBoxAxis.Location = new System.Drawing.Point(37, 47);
+            this.checkedListBoxAxis.Name = "checkedListBoxAxis";
+            this.checkedListBoxAxis.Size = new System.Drawing.Size(106, 76);
+            this.checkedListBoxAxis.TabIndex = 22;
+            this.checkedListBoxAxis.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxAxis_ItemChecked);
+            this.checkedListBoxAxis.SelectedIndexChanged += new System.EventHandler(this.checkedListBoxAxis_SelectedIndexChanged);
+            // 
+            // switchArrayAxisEnable
+            // 
+            // 
+            // 
+            // 
+            this.switchArrayAxisEnable.ItemTemplate.Location = new System.Drawing.Point(0, 0);
+            this.switchArrayAxisEnable.ItemTemplate.Name = "";
+            this.switchArrayAxisEnable.ItemTemplate.Size = new System.Drawing.Size(24, 24);
+            this.switchArrayAxisEnable.ItemTemplate.SwitchStyle = NationalInstruments.UI.SwitchStyle.VerticalToggle3D;
+            this.switchArrayAxisEnable.ItemTemplate.TabIndex = 0;
+            this.switchArrayAxisEnable.ItemTemplate.TabStop = false;
+            this.switchArrayAxisEnable.Location = new System.Drawing.Point(1, 47);
+            this.switchArrayAxisEnable.Name = "switchArrayAxisEnable";
+            this.switchArrayAxisEnable.ScaleMode = NationalInstruments.UI.ControlArrayScaleMode.CreateFixedMode(1);
+            this.switchArrayAxisEnable.Size = new System.Drawing.Size(34, 76);
+            this.switchArrayAxisEnable.TabIndex = 27;
+            // 
+            // ledArrayAxisEnabled
+            // 
+            // 
+            // 
+            // 
+            this.ledArrayAxisEnabled.ItemTemplate.LedStyle = NationalInstruments.UI.LedStyle.Round3D;
+            this.ledArrayAxisEnabled.ItemTemplate.Location = new System.Drawing.Point(0, 0);
+            this.ledArrayAxisEnabled.ItemTemplate.Name = "";
+            this.ledArrayAxisEnabled.ItemTemplate.OffColor = System.Drawing.Color.DarkRed;
+            this.ledArrayAxisEnabled.ItemTemplate.Size = new System.Drawing.Size(24, 24);
+            this.ledArrayAxisEnabled.ItemTemplate.TabIndex = 0;
+            this.ledArrayAxisEnabled.ItemTemplate.TabStop = false;
+            this.ledArrayAxisEnabled.Location = new System.Drawing.Point(145, 47);
+            this.ledArrayAxisEnabled.Name = "ledArrayAxisEnabled";
+            this.ledArrayAxisEnabled.ScaleMode = NationalInstruments.UI.ControlArrayScaleMode.CreateFixedMode(1);
+            this.ledArrayAxisEnabled.Size = new System.Drawing.Size(31, 76);
+            this.ledArrayAxisEnabled.TabIndex = 26;
+            // 
+            // axisLabel
+            // 
+            this.axisLabel.AutoSize = true;
+            this.axisLabel.Location = new System.Drawing.Point(45, 32);
+            this.axisLabel.Name = "axisLabel";
+            this.axisLabel.Size = new System.Drawing.Size(89, 12);
+            this.axisLabel.TabIndex = 25;
+            this.axisLabel.Text = "Available Axes";
+            // 
+            // groupAxisState
+            // 
+            this.groupAxisState.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupAxisState.Controls.Add(this.velLabel);
+            this.groupAxisState.Controls.Add(this.posLabel);
+            this.groupAxisState.Controls.Add(this.dataGridViewAxisDiag);
+            this.groupAxisState.Location = new System.Drawing.Point(187, 17);
+            this.groupAxisState.Name = "groupAxisState";
+            this.groupAxisState.Size = new System.Drawing.Size(212, 141);
+            this.groupAxisState.TabIndex = 16;
+            this.groupAxisState.TabStop = false;
+            this.groupAxisState.Text = "Axis State";
+            // 
+            // velLabel
+            // 
+            this.velLabel.AutoSize = true;
+            this.velLabel.Location = new System.Drawing.Point(127, 24);
+            this.velLabel.Name = "velLabel";
+            this.velLabel.Size = new System.Drawing.Size(53, 12);
+            this.velLabel.TabIndex = 25;
+            this.velLabel.Text = "Velocity";
+            // 
+            // posLabel
+            // 
+            this.posLabel.AutoSize = true;
+            this.posLabel.Location = new System.Drawing.Point(32, 24);
+            this.posLabel.Name = "posLabel";
+            this.posLabel.Size = new System.Drawing.Size(53, 12);
+            this.posLabel.TabIndex = 24;
+            this.posLabel.Text = "Position";
+            // 
+            // dataGridViewAxisDiag
+            // 
+            this.dataGridViewAxisDiag.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewAxisDiag.ColumnHeadersVisible = false;
+            this.dataGridViewAxisDiag.Location = new System.Drawing.Point(6, 47);
+            this.dataGridViewAxisDiag.Name = "dataGridViewAxisDiag";
+            this.dataGridViewAxisDiag.RowHeadersVisible = false;
+            this.dataGridViewAxisDiag.RowTemplate.Height = 23;
+            this.dataGridViewAxisDiag.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.dataGridViewAxisDiag.Size = new System.Drawing.Size(200, 76);
+            this.dataGridViewAxisDiag.TabIndex = 23;
             // 
             // groupTask
             // 
             this.groupTask.Controls.Add(this.groupProgram);
-            this.groupTask.Controls.Add(this.groupGenericString);
             this.groupTask.Controls.Add(this.labelTaskState);
             this.groupTask.Controls.Add(this.label9);
             this.groupTask.Controls.Add(this.comboTask);
-            this.groupTask.Location = new System.Drawing.Point(12, 186);
+            this.groupTask.Location = new System.Drawing.Point(12, 82);
             this.groupTask.Name = "groupTask";
-            this.groupTask.Size = new System.Drawing.Size(455, 182);
+            this.groupTask.Size = new System.Drawing.Size(644, 119);
             this.groupTask.TabIndex = 5;
             this.groupTask.TabStop = false;
             this.groupTask.Text = "Task";
@@ -341,18 +466,18 @@
             this.groupProgram.Controls.Add(this.textProgram);
             this.groupProgram.Controls.Add(this.buttonStopProgram);
             this.groupProgram.Controls.Add(this.buttonRunProgram);
-            this.groupProgram.Location = new System.Drawing.Point(36, 109);
+            this.groupProgram.Location = new System.Drawing.Point(6, 44);
             this.groupProgram.Name = "groupProgram";
-            this.groupProgram.Size = new System.Drawing.Size(402, 67);
+            this.groupProgram.Size = new System.Drawing.Size(634, 67);
             this.groupProgram.TabIndex = 16;
             this.groupProgram.TabStop = false;
             this.groupProgram.Text = "Program";
             // 
             // textProgram
             // 
-            this.textProgram.Location = new System.Drawing.Point(84, 18);
+            this.textProgram.Location = new System.Drawing.Point(69, 15);
             this.textProgram.Name = "textProgram";
-            this.textProgram.Size = new System.Drawing.Size(308, 21);
+            this.textProgram.Size = new System.Drawing.Size(561, 21);
             this.textProgram.TabIndex = 15;
             // 
             // buttonStopProgram
@@ -375,47 +500,18 @@
             this.buttonRunProgram.UseVisualStyleBackColor = true;
             this.buttonRunProgram.Click += new System.EventHandler(this.buttonRunProgram_Click);
             // 
-            // groupGenericString
-            // 
-            this.groupGenericString.Controls.Add(this.textGenericString);
-            this.groupGenericString.Controls.Add(this.buttonExecuteGenericString);
-            this.groupGenericString.Location = new System.Drawing.Point(38, 48);
-            this.groupGenericString.Name = "groupGenericString";
-            this.groupGenericString.Size = new System.Drawing.Size(400, 45);
-            this.groupGenericString.TabIndex = 15;
-            this.groupGenericString.TabStop = false;
-            this.groupGenericString.Text = "Generic String";
-            // 
-            // textGenericString
-            // 
-            this.textGenericString.Location = new System.Drawing.Point(85, 19);
-            this.textGenericString.Name = "textGenericString";
-            this.textGenericString.Size = new System.Drawing.Size(305, 21);
-            this.textGenericString.TabIndex = 6;
-            this.textGenericString.Text = "$global[1] = 1";
-            // 
-            // buttonExecuteGenericString
-            // 
-            this.buttonExecuteGenericString.Location = new System.Drawing.Point(4, 18);
-            this.buttonExecuteGenericString.Name = "buttonExecuteGenericString";
-            this.buttonExecuteGenericString.Size = new System.Drawing.Size(56, 19);
-            this.buttonExecuteGenericString.TabIndex = 5;
-            this.buttonExecuteGenericString.Text = "Execute";
-            this.buttonExecuteGenericString.UseVisualStyleBackColor = true;
-            this.buttonExecuteGenericString.Click += new System.EventHandler(this.buttonExecuteGenericString_Click);
-            // 
             // labelTaskState
             // 
             this.labelTaskState.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelTaskState.Location = new System.Drawing.Point(158, 20);
+            this.labelTaskState.Location = new System.Drawing.Point(115, 20);
             this.labelTaskState.Name = "labelTaskState";
-            this.labelTaskState.Size = new System.Drawing.Size(162, 17);
+            this.labelTaskState.Size = new System.Drawing.Size(521, 17);
             this.labelTaskState.TabIndex = 13;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(120, 20);
+            this.label9.Location = new System.Drawing.Point(74, 21);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(35, 12);
             this.label9.TabIndex = 7;
@@ -424,21 +520,21 @@
             // comboTask
             // 
             this.comboTask.FormattingEnabled = true;
-            this.comboTask.Location = new System.Drawing.Point(42, 18);
+            this.comboTask.Location = new System.Drawing.Point(12, 17);
             this.comboTask.Name = "comboTask";
-            this.comboTask.Size = new System.Drawing.Size(57, 20);
+            this.comboTask.Size = new System.Drawing.Size(56, 20);
             this.comboTask.TabIndex = 0;
             this.comboTask.SelectedIndexChanged += new System.EventHandler(this.comboTask_SelectedIndexChanged);
             // 
-            // Scope
+            // btnMonitor
             // 
-            this.Scope.Location = new System.Drawing.Point(12, 374);
-            this.Scope.Name = "Scope";
-            this.Scope.Size = new System.Drawing.Size(121, 30);
-            this.Scope.TabIndex = 20;
-            this.Scope.Text = "Signal Monitor";
-            this.Scope.UseVisualStyleBackColor = true;
-            this.Scope.Click += new System.EventHandler(this.Scope_Click);
+            this.btnMonitor.Location = new System.Drawing.Point(427, 48);
+            this.btnMonitor.Name = "btnMonitor";
+            this.btnMonitor.Size = new System.Drawing.Size(121, 30);
+            this.btnMonitor.TabIndex = 20;
+            this.btnMonitor.Text = "Signal Monitor";
+            this.btnMonitor.UseVisualStyleBackColor = true;
+            this.btnMonitor.Click += new System.EventHandler(this.Scope_Click);
             // 
             // groupHome
             // 
@@ -446,14 +542,14 @@
             this.groupHome.Controls.Add(this.HomeBtn);
             this.groupHome.Location = new System.Drawing.Point(244, 11);
             this.groupHome.Name = "groupHome";
-            this.groupHome.Size = new System.Drawing.Size(223, 65);
+            this.groupHome.Size = new System.Drawing.Size(177, 65);
             this.groupHome.TabIndex = 7;
             this.groupHome.TabStop = false;
             this.groupHome.Text = "Home Status";
             // 
             // StopBtn
             // 
-            this.StopBtn.Location = new System.Drawing.Point(140, 28);
+            this.StopBtn.Location = new System.Drawing.Point(94, 28);
             this.StopBtn.Name = "StopBtn";
             this.StopBtn.Size = new System.Drawing.Size(66, 23);
             this.StopBtn.TabIndex = 1;
@@ -476,9 +572,9 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.labelStatus,
             this.labelMessage});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 413);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 374);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(480, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(684, 22);
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -497,12 +593,52 @@
             this.labelMessage.Text = "Message";
             this.labelMessage.Click += new System.EventHandler(this.laebelMessage_Click);
             // 
+            // btnGenerator
+            // 
+            this.btnGenerator.Location = new System.Drawing.Point(427, 12);
+            this.btnGenerator.Name = "btnGenerator";
+            this.btnGenerator.Size = new System.Drawing.Size(121, 30);
+            this.btnGenerator.TabIndex = 21;
+            this.btnGenerator.Text = "Signal Generator";
+            this.btnGenerator.UseVisualStyleBackColor = true;
+            this.btnGenerator.Click += new System.EventHandler(this.btnGenerator_Click);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.enableToolStripMenuItem,
+            this.disableToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(120, 48);
+            // 
+            // enableToolStripMenuItem
+            // 
+            this.enableToolStripMenuItem.Name = "enableToolStripMenuItem";
+            this.enableToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.enableToolStripMenuItem.Text = "Enable";
+            // 
+            // disableToolStripMenuItem
+            // 
+            this.disableToolStripMenuItem.Name = "disableToolStripMenuItem";
+            this.disableToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.disableToolStripMenuItem.Text = "Disable";
+            // 
+            // elementHost1
+            // 
+            this.elementHost1.Location = new System.Drawing.Point(144, 10);
+            this.elementHost1.Name = "elementHost1";
+            this.elementHost1.Size = new System.Drawing.Size(100, 100);
+            this.elementHost1.TabIndex = 1;
+            this.elementHost1.Text = "elementHostJoyStick";
+            this.elementHost1.Child = null;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(480, 435);
-            this.Controls.Add(this.Scope);
+            this.ClientSize = new System.Drawing.Size(684, 396);
+            this.Controls.Add(this.btnGenerator);
+            this.Controls.Add(this.btnMonitor);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.groupHome);
             this.Controls.Add(this.groupTask);
@@ -515,20 +651,30 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formGUI_FormClosing);
             this.Load += new System.EventHandler(this.formGUI_Load);
             this.groupController.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ledConnection)).EndInit();
             this.groupAxis.ResumeLayout(false);
+            this.groupAxis.PerformLayout();
+            this.tabControlAxisMotion.ResumeLayout(false);
+            this.QuickRunTab.ResumeLayout(false);
             this.groupFreerun.ResumeLayout(false);
             this.groupFreerun.PerformLayout();
+            this.FreeRunTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.velocityEditArray.ItemTemplate)).EndInit();
+            this.groupAxisSelection.ResumeLayout(false);
+            this.groupAxisSelection.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.switchArrayAxisEnable.ItemTemplate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ledArrayAxisEnabled.ItemTemplate)).EndInit();
             this.groupAxisState.ResumeLayout(false);
             this.groupAxisState.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAxisDiag)).EndInit();
             this.groupTask.ResumeLayout(false);
             this.groupTask.PerformLayout();
             this.groupProgram.ResumeLayout(false);
             this.groupProgram.PerformLayout();
-            this.groupGenericString.ResumeLayout(false);
-            this.groupGenericString.PerformLayout();
             this.groupHome.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -541,24 +687,20 @@
 		private System.Windows.Forms.GroupBox groupAxis;
 		private System.Windows.Forms.GroupBox groupTask;
 		private System.Windows.Forms.Button ButtonEnableAxis;
-		private System.Windows.Forms.ComboBox comboAxis;
 		private System.Windows.Forms.Button ButtonFreerunCCW;
 		private System.Windows.Forms.Button ButtonFreerunCW;
 		private System.Windows.Forms.Button ButtonDisableAxis;
 		private System.Windows.Forms.ComboBox comboTask;
-		private System.Windows.Forms.Button buttonExecuteGenericString;
 		private System.Windows.Forms.Button buttonRunProgram;
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.Label labelTaskState;
 		private System.Windows.Forms.Button buttonStopProgram;
 		private System.Windows.Forms.GroupBox groupProgram;
-		private System.Windows.Forms.GroupBox groupGenericString;
 		private System.Windows.Forms.GroupBox groupFreerun;
 		private System.Windows.Forms.TextBox textFreerunSpeed;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox textProgram;
-		private System.Windows.Forms.TextBox textGenericString;
-        private System.Windows.Forms.Button Scope;
+        private System.Windows.Forms.Button btnMonitor;
         private System.Windows.Forms.GroupBox groupHome;
         private System.Windows.Forms.Button HomeBtn;
         private System.Windows.Forms.GroupBox groupAxisState;
@@ -566,18 +708,31 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label labelAxisHomed;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label labelAxisSpeed;
-        private System.Windows.Forms.Label labelAxisPosition;
-        private System.Windows.Forms.Label labelAxisState;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel labelStatus;
         private System.Windows.Forms.ToolStripStatusLabel labelMessage;
         private System.Windows.Forms.Button StopBtn;
         private System.Windows.Forms.Button btnResetController;
         private System.Windows.Forms.Button btnDisconnectController;
+        private NationalInstruments.UI.WindowsForms.Led ledConnection;
+        private System.Windows.Forms.Button btnGenerator;
+        private System.Windows.Forms.CheckedListBox checkedListBoxAxis;
+        private System.Windows.Forms.DataGridView dataGridViewAxisDiag;
+        private System.Windows.Forms.TabControl tabControlAxisMotion;
+        private System.Windows.Forms.TabPage QuickRunTab;
+        private System.Windows.Forms.TabPage FreeRunTab;
+        private System.Windows.Forms.TabPage LinearMotionTab;
+        private System.Windows.Forms.GroupBox groupAxisSelection;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem enableToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem disableToolStripMenuItem;
+        private System.Windows.Forms.Label velLabel;
+        private System.Windows.Forms.Label posLabel;
+        private System.Windows.Forms.Label axisLabel;
+        private NationalInstruments.UI.WindowsForms.LedArray ledArrayAxisEnabled;
+        private NationalInstruments.UI.WindowsForms.SwitchArray switchArrayAxisEnable;
+        private NationalInstruments.UI.WindowsForms.NumericEditArray velocityEditArray;
+        private System.Windows.Forms.Integration.ElementHost elementHost1;
     }
 }
 

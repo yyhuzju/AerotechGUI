@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Aerotech.A3200;
 using Aerotech.A3200.Information;
 using Aerotech.A3200.Status;
@@ -36,7 +37,14 @@ namespace AerotechMotion
         }
         public void Reset()
         {
-            _myController.Reset();
+            try
+            {
+                _myController.Reset();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Controller not connected");
+            }
         }
 
         public void Disconnect()

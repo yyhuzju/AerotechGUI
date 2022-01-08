@@ -1,1 +1,12 @@
+NationalInstruments.UI.WindowsForms.LedArray, NationalInstruments.UI.WindowsForms, Version=19.0.45.49154, Culture=neutral, PublicKeyToken=4febd62461bf11a4
+NationalInstruments.UI.WindowsForms.NumericEdit, NationalInstruments.UI.WindowsForms, Version=19.0.45.49154, Culture=neutral, PublicKeyToken=4febd62461bf11a4
 NationalInstruments.UI.WindowsForms.WaveformGraph, NationalInstruments.UI.WindowsForms, Version=19.0.45.49154, Culture=neutral, PublicKeyToken=4febd62461bf11a4
+NationalInstruments.UI.WindowsForms.SwitchArray, NationalInstruments.UI.WindowsForms, Version=19.0.45.49154, Culture=neutral, PublicKeyToken=4febd62461bf11a4
+NationalInstruments.UI.WindowsForms.Meter, NationalInstruments.UI.WindowsForms, Version=19.0.45.49154, Culture=neutral, PublicKeyToken=4febd62461bf11a4
+NationalInstruments.UI.WindowsForms.Legend, NationalInstruments.UI.WindowsForms, Version=19.0.45.49154, Culture=neutral, PublicKeyToken=4febd62461bf11a4
+NationalInstruments.UI.WindowsForms.IntensityGraph, NationalInstruments.UI.WindowsForms, Version=19.0.45.49154, Culture=neutral, PublicKeyToken=4febd62461bf11a4
+NationalInstruments.UI.WindowsForms.NumericEditArray, NationalInstruments.UI.WindowsForms, Version=19.0.45.49154, Culture=neutral, PublicKeyToken=4febd62461bf11a4
+NationalInstruments.UI.WindowsForms.Led, NationalInstruments.UI.WindowsForms, Version=19.0.45.49154, Culture=neutral, PublicKeyToken=4febd62461bf11a4
+NationalInstruments.UI.WindowsForms.Switch, NationalInstruments.UI.WindowsForms, Version=19.0.45.49154, Culture=neutral, PublicKeyToken=4febd62461bf11a4
+NationalInstruments.UI.WindowsForms.InstrumentControlStrip, NationalInstruments.UI.WindowsForms, Version=19.0.45.49154, Culture=neutral, PublicKeyToken=4febd62461bf11a4
+NationalInstruments.UI.WindowsForms.ToolStripPropertyEditor, NationalInstruments.UI.WindowsForms, Version=19.0.45.49154, Culture=neutral, PublicKeyToken=4febd62461bf11a4
